@@ -9,7 +9,7 @@ class MensaViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Mensa Viewer',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
@@ -46,7 +46,7 @@ class _MensaViewerHomeState extends State<MensaViewerHome> {
             ),
           ],
         ),
-      ),// This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
