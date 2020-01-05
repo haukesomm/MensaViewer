@@ -5,8 +5,8 @@ class Meal {
   final String dish;
   final bool isVegetarian;
   final bool isVegan;
-  final double price;
-  final double priceStaff;
+  final String price;
+  final String priceStaff;
 
   Meal(
     this.date,
