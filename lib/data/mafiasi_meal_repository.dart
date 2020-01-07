@@ -20,8 +20,9 @@ class MafiasiMealRepository implements MealRepository {
 
     final String url = "$_apiEndpointCanteens/$mensaId/$day";
     final Response response = await get(url);
+    final String responseBodyUtf8 = utf8.decode(response.bodyBytes);
     
-    final jsonMeals = jsonDecode(response.body);
+    final jsonMeals = jsonDecode(responseBodyUtf8);
     assert (jsonMeals is List);
 
     for (final jsonMeal in jsonMeals) {
