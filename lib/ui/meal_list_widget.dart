@@ -9,12 +9,12 @@ import 'package:mensaviewer/models/meal.dart';
 /// respective dish displayed, the price and a so called 'diet-label' quickly
 /// indicating whther a meal is vegan, vegetarian or non-vegetarian 
 /// (animal-based).
-class MealListVidget extends StatelessWidget {
+class MealListWidget extends StatelessWidget {
 
   final List<Meal> _meals;
 
   /// Constructor
-  MealListVidget(this._meals, {Key key})
+  MealListWidget(this._meals, {Key key})
     : super(key: key);
 
 
