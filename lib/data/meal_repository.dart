@@ -11,4 +11,7 @@ abstract class MealRepository {
   /// Returns a List of [Meal]s served in the Mensa with the given [mensaId] at
   /// the following day.
   Future<List<Meal>> getMealsForNextDay(int mensaId);
+
+  /// Returns a List of all [Meal]s stored in the Mensa, regardless of the day.
+  Future<List<Meal>> getAllAvailableMeals(int mensaId);
 }

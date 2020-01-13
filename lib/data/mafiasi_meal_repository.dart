@@ -40,4 +40,12 @@ class MafiasiMealRepository implements MealRepository {
   @override
   Future<List<Meal>> getMealsForNextDay(int mensaId) async => 
     await _getMealsForDay(mensaId, 'tomorrow');
+
+  @override
+  Future<List<Meal>> getAllAvailableMeals(int mensaId) async {
+    List<Meal> meals = [];
+    meals.addAll(await getMealsForCurrentDay(mensaId));
+    meals.addAll(await getMealsForNextDay(mensaId));
+    return meals;
+  }
 }
