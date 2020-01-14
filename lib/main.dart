@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mensaviewer/ui/meal_list_page.dart';
 
 
 void main() => runApp(MensaViewer());
@@ -13,40 +14,7 @@ class MensaViewer extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: MensaViewerHome(),
-    );
-  }
-}
-
-
-class MensaViewerHome extends StatefulWidget {
-
-  MensaViewerHome({Key key}) : super(key: key);
-
-  @override
-  _MensaViewerHomeState createState() => _MensaViewerHomeState();
-}
-
-class _MensaViewerHomeState extends State<MensaViewerHome> {
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Mensa Viewer'
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Hello World!',
-            ),
-          ],
-        ),
-      ),
+      home: MealListPage(),
     );
   }
 }
