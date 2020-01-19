@@ -27,9 +27,12 @@ class MensaSelectorWidget extends StatefulWidget {
 
   final MensaRepository _repo;
 
+  final Function(Mensa) _onMensaSelected;
+
   /// Constructor
-  MensaSelectorWidget({Key key}) 
+  MensaSelectorWidget({Key key, Function(Mensa) onMensaSelected}) 
     : _repo = OnDeviceMensaRepository(),
+      _onMensaSelected = onMensaSelected,
       super(key: key);
 
 
@@ -83,7 +86,10 @@ class _MensaSelectorWidgetState extends State<MensaSelectorWidget> {
         break;
 
       case _statusMensasLoaded:
-        body = MensaListWidget(_mensas);
+        body = MensaListWidget(
+          _mensas,
+          onMensaSelected: widget._onMensaSelected,
+        );
         break;
 
       case _statusErrorLoadingMensas:
