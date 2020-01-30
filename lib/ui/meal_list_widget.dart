@@ -114,23 +114,29 @@ class MealListWidget extends StatelessWidget {
 
   /// Returns a diet-label based on the given [iconData], [color] and [caption].
   Widget _buildDietLabel(BuildContext context, IconData iconData, Color color, String caption) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Icon(
-          iconData,
-          size: 18,
-          color: color,
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            left: 8,
+    return Container(
+      margin: EdgeInsets.only(
+        top: 8,
+        bottom: 8,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            iconData,
+            size: 18,
+            color: color,
           ),
-          child: Text(
-            caption
-          ),
-        )//
-      ],
+          Container(
+            margin: EdgeInsets.only(
+              left: 8,
+            ),
+            child: Text(
+              caption
+            ),
+          )//
+        ],
+      ),
     );
   }
 }
