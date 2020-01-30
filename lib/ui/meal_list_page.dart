@@ -141,7 +141,7 @@ class _MealListPageState extends State<MealListPage> {
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
-  
+
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton.extended(
       icon: Icon(Icons.arrow_drop_up),
@@ -162,10 +162,23 @@ class _MealListPageState extends State<MealListPage> {
     return BottomAppBar(
       child: Container(
         height: 60,
+        alignment: Alignment.center,
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            _buildAppBarButton(
+              context: context, 
+              iconData: Icons.insert_chart, 
+              title: 'Stats',
+              onClick: () {},
+            ),
+
+            _buildAppBarButton(context: context, 
+              iconData: Icons.settings, 
+              title: 'Settings',
+              onClick: () {}
+            ),
           ],
         ),
       ),
@@ -173,6 +186,33 @@ class _MealListPageState extends State<MealListPage> {
         RoundedRectangleBorder(),
         StadiumBorder(side: BorderSide())
       ),
+    );
+  }
+
+  /// Builds an Appbar-Button consisting of an Icon (passed in via [iconData])
+  /// and a [title] below it.
+  /// 
+  /// An onClick-Function needs to be specified via the [onClick] parameter.
+  Widget _buildAppBarButton({
+    @required context, 
+    @required IconData iconData, 
+    @required String title,
+    @required Function(void) onClick(),
+  }) {
+    return FlatButton(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            iconData,
+            color: Theme.of(context).accentColor,
+          ),
+          Text(
+            title
+          ),
+        ],
+      ),
+      onPressed: () {},
     );
   }
 }
