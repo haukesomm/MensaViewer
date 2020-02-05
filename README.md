@@ -10,6 +10,7 @@ cool additions over the original, including:
 - [ ] Cross-platform availability
 - [X] An overhauled design
 - [X] Easy navigation between more than three Mensas at a time
+- [X] Indicator whether regular or staff prices are displayed
 - [ ] Offline Caching
 - [X] All the latest Flutter-Goodness :P
 
