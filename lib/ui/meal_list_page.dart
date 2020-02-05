@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mensaviewer/data/mafiasi_meal_repository.dart';
 import 'package:mensaviewer/data/meal_repository.dart';
+import 'package:mensaviewer/data/shared_preferences_helper.dart' as prefs;
 import 'package:mensaviewer/models/meal.dart';
 import 'package:mensaviewer/models/mensa.dart';
 import 'package:mensaviewer/ui/error_screen_widget.dart';
@@ -10,17 +11,6 @@ import 'package:mensaviewer/ui/meal_list_widget.dart';
 import 'package:mensaviewer/ui/mensa_not_selected_widget.dart';
 import 'package:mensaviewer/ui/mensa_selector_widget.dart';
 import 'package:mensaviewer/ui/settings_page.dart';
-
-
-// TODO: Use FutureBuilder class instead of hard-coded state-flags
-
-const int _statusNoMensaSelected = 0;
-
-const int _statusMealsLoading = 1;
-
-const int _statusMealsLoaded = 2;
-
-const int _statusErrorLoadingMeals = 3;
 
 
 /// A widget/page that hosts widgets to select a [Mensa] and display the
@@ -40,45 +30,17 @@ class MealListPage extends StatefulWidget {
 class _MealListPageState extends State<MealListPage> {
 
   String _title = 'Mensa Viewer';
-  
-  int _status = _statusNoMensaSelected;
+
+  bool _noMensaSelected = true;
 
   Mensa _mensa;
 
-  List<Meal> _meals = [];
+  bool _userIsStaff;
 
 
-  @override
-  void initState() {
-    super.initState();
-    
-    _startLoadingMeals();
-  }
-
-
-  /// Starts getting the list of [Meal]s served in the currently set [_mensa].
-  /// 
-  /// Depending on whether the meals could successfully be retrieved the state
-  /// of the widget will either be set to display the meals or an eeror screen
-  /// instead.
-  /// 
-  /// See: [_onMensaSelected(mensa)]
-  void _startLoadingMeals() {
-    if (_mensa != null) {
-      widget._repo.getAllAvailableMeals(_mensa.id)
-        .then(
-          (meals) {
-            _onMealsLoaded(meals);
-          }
-        ).catchError(
-          (e) {
-            print("An error occurred loading the meals: $e");
-            _status = _statusErrorLoadingMeals;
-          }
-        );
-    } else {
-      // log warning
-    }
+  Future<List<Meal>> _loadMeals() async {
+    _userIsStaff = await prefs.getPreferenceValue(prefs.userIsStaff);
+    return await widget._repo.getAllAvailableMeals(_mensa.id);
   }
 
 
@@ -87,52 +49,24 @@ class _MealListPageState extends State<MealListPage> {
   void _onMensaSelected(Mensa mensa) {
     Navigator.pop(context);
     setState(() {
-      _mensa = mensa;
+      _noMensaSelected = false;
       _title = mensa.name;
-      _status = _statusMealsLoading;
-    });
-  }
-
-  /// Updates the widget's state to display the given [meals].
-  void _onMealsLoaded(List<Meal> meals) {
-    setState(() {
-      _meals = meals;
-      _status = _statusMealsLoaded;  
+      _mensa = mensa;
     });
   }
 
   
   @override
   Widget build(BuildContext context) {
-    Widget body;
-
-    switch (_status) {
-      case _statusNoMensaSelected:
-        body = MensaNotSelectedWidget();
-        break;
-
-      case _statusMealsLoading:
-        body = LoadingScreenWidget('Loading Meals');
-        _startLoadingMeals();
-        break;
-
-      case _statusMealsLoaded:
-        body = MealListWidget(_meals);
-        break;
-
-      case _statusErrorLoadingMeals:
-        body = ErrorScreenWidget('Sorry, there was an error loading the Meals.');
-        break;
-    }
-
     return Scaffold(
+      // TODO: Display a chip indicating whether the current user is a student or staff
       appBar: AppBar(
         title: Text(
           _title
         ),
       ),
 
-      body: body,
+      body: _buildBody(context),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Builder(
@@ -142,6 +76,29 @@ class _MealListPageState extends State<MealListPage> {
       ),
 
       bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  // TODO: Display empty message if the future completed successfully but did
+  // not return any meals.
+  Widget _buildBody(BuildContext context) {
+    if (_noMensaSelected) {
+      return MensaNotSelectedWidget();
+    }
+
+    return FutureBuilder(
+      future: _loadMeals(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MealListWidget(snapshot.data, _userIsStaff);
+
+        } else if (snapshot.hasError) {
+          return ErrorScreenWidget('There was an error loading the Meals.');
+
+        } else {
+          return LoadingScreenWidget('Loading Meals');
+        }
+      }
     );
   }
 

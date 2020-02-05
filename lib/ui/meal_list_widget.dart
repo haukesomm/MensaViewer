@@ -19,8 +19,10 @@ class MealListWidget extends StatelessWidget {
 
   final List<Meal> _meals;
 
+  final bool _userIsStaff;
+
   /// Constructor
-  MealListWidget(this._meals, {Key key})
+  MealListWidget(this._meals, this._userIsStaff, {Key key})
     : super(key: key) {
     _sortMealsByDate(_meals);
   }
@@ -90,7 +92,7 @@ class MealListWidget extends StatelessWidget {
             meal.dish
           ),
           trailing: Text(
-            "${meal.price} €"
+            "${_userIsStaff ? meal.priceStaff : meal.price} €"
           ),
           subtitle: _buildDietLabelForMeal(context, meal),
         ),
