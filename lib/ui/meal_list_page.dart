@@ -35,12 +35,34 @@ class _MealListPageState extends State<MealListPage> {
 
   Mensa _mensa;
 
-  bool _userIsStaff;
+  bool _userIsStaff = false;
 
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPreferenceValues();
+  }
+
+
+  Future<bool> _getUserIsStaff() async {
+    return  await prefs.getPreferenceValue(prefs.userIsStaff);
+  }
 
   Future<List<Meal>> _loadMeals() async {
-    _userIsStaff = await prefs.getPreferenceValue(prefs.userIsStaff);
     return await widget._repo.getAllAvailableMeals(_mensa.id);
+  }
+
+
+  /// Reads from the app's shared preferences and initializes the respective
+  /// fields accordingly.
+  void _initSharedPreferenceValues() {
+    _getUserIsStaff()
+      .then((onValue) {
+        setState(() {
+          _userIsStaff = onValue;
+        });
+      });
   }
 
 
@@ -55,15 +77,37 @@ class _MealListPageState extends State<MealListPage> {
     });
   }
 
+
+  /// Shows the app's settings page and re-initializes the shared preference
+  /// fields.
+  /// 
+  /// A full re-build is triggered via the 'setState()' method for the UI to
+  /// refelct the settings.
+  void _showSettingsPage() {
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => SettingsPage()
+      )
+    )
+    .then((result) { _initSharedPreferenceValues(); });
+  }
+
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // TODO: Display a chip indicating whether the current user is a student or staff
       appBar: AppBar(
-        title: Text(
-          _title
-        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              _title
+            ),
+            _buildStaffIndicator(context),
+          ],
+        )
       ),
 
       body: _buildBody(context),
@@ -76,6 +120,25 @@ class _MealListPageState extends State<MealListPage> {
       ),
 
       bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  Widget _buildStaffIndicator(BuildContext context) {
+    return Chip(
+      label: Text(
+        _userIsStaff ? 'Staff' : 'Student'
+      ),
+      avatar: Container(
+        margin: EdgeInsets.only(
+          left: 4,
+          right: 4,
+        ),
+        child: Icon(
+          _userIsStaff ? Icons.computer : Icons.school,
+          color: Theme.of(context).accentColor,
+        ),
+      )
+      //
     );
   }
 
@@ -137,14 +200,7 @@ class _MealListPageState extends State<MealListPage> {
             _buildAppBarButton(context: context, 
               iconData: Icons.settings, 
               title: 'Settings',
-              onPressed: () {
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(
-                    builder: (context) => SettingsPage()
-                  )
-                );
-              }
+              onPressed: _showSettingsPage,
             ),
           ],
         ),
@@ -164,7 +220,7 @@ class _MealListPageState extends State<MealListPage> {
     @required context, 
     @required IconData iconData, 
     @required String title,
-    @required Function(void) onPressed(),
+    @required void Function() onPressed,
   }) {
     return FlatButton(
       child: Column(
