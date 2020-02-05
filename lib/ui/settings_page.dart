@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:mensaviewer/data/shared_preferences_helper.dart' as prefs;
-
 
 /// A settings page that lets the user edit his preferences.
 class SettingsPage extends StatefulWidget {
@@ -25,14 +28,11 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       body: Column(
-        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          _buildSharedPrefCheckboxTile(
-            context, 
-            prefs.userIsStaff, 
-            'Show staff prices'
-          )
+          _buildGeneralSettingsSection(context),
+          Divider(),
+          _buildAboutSection(context),
         ],
       ),
     );
@@ -63,5 +63,113 @@ class _SettingsPageState extends State<SettingsPage> {
         );
       },
     );
+  }
+
+  Widget _buildGeneralSettingsSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Container(
+            margin: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+              bottom: 8,
+            ),
+            child: Text(
+              'General',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
+          ),
+          
+          _buildSharedPrefCheckboxTile(
+            context, 
+            prefs.userIsStaff, 
+            'Show staff prices'
+          )
+      ],
+    );
+  }
+
+  Widget _buildAboutSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(
+            top: 16,
+            left: 16,
+            right: 16,
+            bottom: 8
+          ),
+          child: Text(
+            'About',
+            style: Theme.of(context).textTheme.subtitle,
+          ),
+        ),
+        
+        ListTile(
+          title: Text(
+            'This app is open-source'
+          ),
+          subtitle: Text(
+            'Tap to check it out on GitHub'
+          ),
+          leading: Icon(
+            MdiIcons.githubCircle
+          ),
+          trailing: Icon(
+            MdiIcons.openInNew
+          ),
+          onTap: () {
+            _openGitHubPage();
+          },
+        ),
+        ListTile(
+          title: Text(
+            'Version'
+          ),
+          subtitle: _getVersionNumberWidgetBuilder(context),
+          leading: Icon(
+            MdiIcons.git
+          ),
+        ),
+        ListTile(
+          subtitle: Text(
+            '(C) 2020 Hauke Sommerfeld\nLicensed under the MIT license.'
+          ),
+          leading: Icon(
+            MdiIcons.copyright
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _getVersionNumberWidgetBuilder(BuildContext context) {
+    return FutureBuilder(
+      future: PackageInfo.fromPlatform(),
+      builder: (context, result) {
+        if (result.connectionState == ConnectionState.done) {
+          return Text(
+            result.data.version
+          );
+        } else {
+          return Text(
+            'Unknown'
+          );
+        }
+      },
+    );
+  }
+
+
+  Future<void> _openGitHubPage() async {
+    const url = 'https://github.com/haukesomm/mensaviewer';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      // TODO: log warning
+    }
   }
 }
