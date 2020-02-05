@@ -14,6 +14,11 @@ class MensaViewer extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        accentColor: Colors.blueAccent[100],
+        toggleableActiveColor: Colors.blueAccent[100],
+      ),
       home: MealListPage(),
     );
   }
