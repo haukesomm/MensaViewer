@@ -9,7 +9,10 @@ import 'package:mensaviewer/ui/loading_screen_widget.dart';
 import 'package:mensaviewer/ui/meal_list_widget.dart';
 import 'package:mensaviewer/ui/mensa_not_selected_widget.dart';
 import 'package:mensaviewer/ui/mensa_selector_widget.dart';
+import 'package:mensaviewer/ui/settings_page.dart';
 
+
+// TODO: Use FutureBuilder class instead of hard-coded state-flags
 
 const int _statusNoMensaSelected = 0;
 
@@ -171,13 +174,20 @@ class _MealListPageState extends State<MealListPage> {
               context: context, 
               iconData: Icons.insert_chart, 
               title: 'Stats',
-              onClick: () {},
+              onPressed: () {},
             ),
 
             _buildAppBarButton(context: context, 
               iconData: Icons.settings, 
               title: 'Settings',
-              onClick: () {}
+              onPressed: () {
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage()
+                  )
+                );
+              }
             ),
           ],
         ),
@@ -192,12 +202,12 @@ class _MealListPageState extends State<MealListPage> {
   /// Builds an Appbar-Button consisting of an Icon (passed in via [iconData])
   /// and a [title] below it.
   /// 
-  /// An onClick-Function needs to be specified via the [onClick] parameter.
+  /// An onPressed-Function needs to be specified via the [onPressed] parameter.
   Widget _buildAppBarButton({
     @required context, 
     @required IconData iconData, 
     @required String title,
-    @required Function(void) onClick(),
+    @required Function(void) onPressed(),
   }) {
     return FlatButton(
       child: Column(
@@ -212,7 +222,7 @@ class _MealListPageState extends State<MealListPage> {
           ),
         ],
       ),
-      onPressed: () {},
+      onPressed: onPressed,
     );
   }
 }
