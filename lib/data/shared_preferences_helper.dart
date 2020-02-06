@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,7 +49,14 @@ const userIsStaff =
 /// result beforehand.
 Future<dynamic> getPreferenceValue(PreferenceKey key) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.get(key.key);
+  final result = prefs.get(key.key);
+
+  if (result == null) {
+    dev.log("Shared preference '${key.key}' was null. Returning default value: '${key.defaultValue}'.");
+    return key.defaultValue;
+  } else {
+    return result;
+  }
 }
 
 /// Persists the given [value] for the given SharedPreferences [key].

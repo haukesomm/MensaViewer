@@ -46,7 +46,7 @@ class _MealListPageState extends State<MealListPage> {
 
 
   Future<bool> _getUserIsStaff() async {
-    return  await prefs.getPreferenceValue(prefs.userIsStaff);
+    return await prefs.getPreferenceValue(prefs.userIsStaff);
   }
 
   Future<List<Meal>> _loadMeals() async {
