@@ -228,7 +228,7 @@ class _MealListPageState extends State<MealListPage> {
         children: <Widget>[
           Icon(
             iconData,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).primaryColor,
           ),
           Text(
             title
