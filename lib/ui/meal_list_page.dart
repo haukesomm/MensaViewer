@@ -137,8 +137,8 @@ class _MealListPageState extends State<MealListPage> {
           _userIsStaff ? Icons.computer : Icons.school,
           color: Theme.of(context).accentColor,
         ),
-      )
-      //
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 

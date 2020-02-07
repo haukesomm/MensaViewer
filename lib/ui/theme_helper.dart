@@ -5,7 +5,7 @@ final Color lightThemePrimaryColor = Colors.indigo;
 
 final Color lightThemeAccentColor = Colors.amber;
 
-final Color darkThemePrimaryColor = Colors.blue[200];
+final Color darkThemePrimaryColor = Colors.blueAccent[100];
 
 final Color darkThemeAccentColor = Colors.amber[300];
 
@@ -36,19 +36,19 @@ ThemeData getDarkAppTheme() {
       color: Colors.grey[850],
       textTheme: TextTheme(
         title: TextStyle(
-          color: darkThemePrimaryColor,
-          fontSize: 21,
+          color: Colors.white,
+          fontSize: 20,
           fontWeight: FontWeight.w500
         )
       ),
       iconTheme: IconThemeData(
-        color: darkThemePrimaryColor
+        color: Colors.white
       ),
     ),
     
     textTheme: TextTheme(
       subtitle: TextStyle(
-        color: darkThemeAccentColor
+        color: darkThemePrimaryColor
       ),
     ),
     

@@ -40,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   /// Builds a CheckboxListTile that can be used to modify the value of the
   /// given SharedPreference key.
-  Widget _buildSharedPrefCheckboxTile(
+  Widget _buildSharedPrefSwitchTile(
     BuildContext context, 
     prefs.PreferenceKey key, 
     String title
@@ -48,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return FutureBuilder(
       future: prefs.getPreferenceValue(key),
       builder: (context, snapshot) {
-        return CheckboxListTile(
+        return SwitchListTile(
           title: Container(
             child: Text(
               title
@@ -82,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           
-          _buildSharedPrefCheckboxTile(
+          _buildSharedPrefSwitchTile(
             context, 
             prefs.userIsStaff, 
             'Show staff prices'
