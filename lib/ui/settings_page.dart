@@ -19,6 +19,27 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
+  String _versionName = "Unknown";
+
+
+  @override
+  void initState() {
+    _initVersionInfo();
+  }
+
+
+  /// Reads the version info of this app from the app's package and updates
+  /// this state accordingly.
+  Future<void> _initVersionInfo() {
+    PackageInfo.fromPlatform()
+      .then((value) {
+        setState(() {
+          _versionName = value.version;
+        });
+      });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +150,9 @@ class _SettingsPageState extends State<SettingsPage> {
           title: Text(
             'Version'
           ),
-          subtitle: _getVersionNumberWidgetBuilder(context),
+          subtitle: Text(
+            _versionName
+          ),
           leading: Icon(
             MdiIcons.git
           ),
@@ -143,23 +166,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         )
       ],
-    );
-  }
-
-  Widget _getVersionNumberWidgetBuilder(BuildContext context) {
-    return FutureBuilder(
-      future: PackageInfo.fromPlatform(),
-      builder: (context, result) {
-        if (result.connectionState == ConnectionState.done) {
-          return Text(
-            result.data.version
-          );
-        } else {
-          return Text(
-            'Unknown'
-          );
-        }
-      },
     );
   }
 
