@@ -34,6 +34,6 @@ of different platforms ;-)
 ### Screenshots
 
 <div align="center">
-	<img src="misc/screenshots/screenshot_meals_1.png" width="40%"/>
-	<img src="misc/screenshots/screenshot_meals_2.png" width="40%"/>
+	<img src="misc/screenshots/screenshot_main_light.png" width="40%"/>
+	<img src="misc/screenshots/screenshot_main_dark.png" width="40%"/>
 </div>
