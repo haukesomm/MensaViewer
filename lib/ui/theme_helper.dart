@@ -18,7 +18,7 @@ ThemeData getLighAppTheme() {
 
     textTheme: TextTheme(
       subtitle: TextStyle(
-        color: lightThemeAccentColor
+        color: lightThemePrimaryColor
       ),
     ),
   );
