@@ -197,7 +197,11 @@ class _MealListPageState extends State<MealListPage> {
               onPressed: () {},
             ),
 
-            _buildAppBarButton(context: context, 
+            // Just here to add some extra space
+            Container(),
+
+            _buildAppBarButton(
+              context: context, 
               iconData: Icons.settings, 
               title: 'Settings',
               onPressed: _showSettingsPage,
