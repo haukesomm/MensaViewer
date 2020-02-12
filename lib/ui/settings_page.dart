@@ -134,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'This app is open-source'
           ),
           subtitle: Text(
-            'Tap to check it out on GitHub'
+            'Check it out on GitHub'
           ),
           leading: Icon(
             MdiIcons.githubCircle
@@ -159,10 +159,10 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         ListTile(
           subtitle: Text(
-            '(C) 2020 Hauke Sommerfeld\nLicensed under the MIT license.'
+            '\u00A9 2020 Hauke Sommerfeld\nLicensed under the MIT license.'
           ),
           leading: Icon(
-            MdiIcons.copyright
+            MdiIcons.informationOutline
           ),
         )
       ],
