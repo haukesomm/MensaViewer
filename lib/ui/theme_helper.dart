@@ -31,6 +31,8 @@ ThemeData getDarkAppTheme() {
     primaryColor: darkThemePrimaryColor,
     accentColor: darkThemeAccentColor,
 
+    scaffoldBackgroundColor: Colors.grey[800],
+
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
       color: Colors.grey[850],
@@ -45,13 +47,19 @@ ThemeData getDarkAppTheme() {
         color: Colors.white
       ),
     ),
+
+    bottomAppBarTheme: BottomAppBarTheme(
+      color: Colors.grey[850],
+      // TODO: Check if elevation is fixed
+      elevation: 4.0,
+    ),
     
     textTheme: TextTheme(
       subtitle: TextStyle(
         color: darkThemePrimaryColor
       ),
     ),
-    
+
     toggleableActiveColor: darkThemeAccentColor,
   );
 }
