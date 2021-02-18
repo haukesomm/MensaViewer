@@ -12,7 +12,7 @@ cool additions over the original, including:
 - [X] Easy navigation between more than three Mensas at a time
 - [X] Indicator whether regular or staff prices are displayed
 - [ ] Offline Caching
-- [X] All the latest Flutter-Goodness :P
+- [ ] Foundation to support other universities
 
 _Note: Some of the above named features are WIP and marked with an unchecked 
 box._
